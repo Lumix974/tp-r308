@@ -2,6 +2,7 @@ import csv
 from pathlib import Path
 from partie_a import Livre, Utilisateur
 from partie_c import sauvegarder_csv, charger_csv
+from partie_e import rechercher_auteur, emprunter_limite, exporter_json
 
 
 def sauvegarder_utilisateurs(bibliotheque, fichier):
@@ -79,7 +80,9 @@ def afficher_menu():
     print("3 - Emprunter un livre")
     print("4 - Rendre un livre")
     print("5 - Afficher les livres")
-    print("6 - Quitter et sauvegarder")
+    print("6 - Rechercher un livre par auteur")
+    print("7 - Exporter la bibliothèque en JSON")
+    print("9 - Quitter et sauvegarder")
 
 
 def jouer():
@@ -134,7 +137,7 @@ def jouer():
             nom = input("Nom de l'utilisateur : ").strip()
             titre = input("Titre du livre : ").strip()
 
-            b.emprunter(nom, titre)  # Tentative d'emprunt
+            emprunter_limite(b, nom, titre)  # Maximum de 3 livres
 
         elif choix == "4":
             nom = input("Nom de l'utilisateur : ").strip()
@@ -146,6 +149,22 @@ def jouer():
             b.afficher_livres()  # Affichage du catalogue
 
         elif choix == "6":
+            auteur = input("Auteur recherché : ").strip()
+            resultats = rechercher_auteur(b, auteur)
+
+            if not resultats:
+                print("Aucun livre trouvé.")
+            else:
+                print(f"\n{len(resultats)} livre(s) trouvé(s) :")
+
+                for livre in resultats:
+                    livre.afficher()
+
+        elif choix == "7":
+            fichier_json = Path(__file__).with_name("bibliotheque.json")
+            exporter_json(b, fichier_json)  # Export des données
+
+        elif choix == "9":
             livres_ok = sauvegarder_csv(b, fichier_livres)
             utilisateurs_ok = sauvegarder_utilisateurs(b, fichier_utilisateurs)
 
