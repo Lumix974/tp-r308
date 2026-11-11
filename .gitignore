@@ -1,0 +1,23 @@
+# Python : bytecode et caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Fichiers générés par les TP (y compris dans leurs sous-dossiers)
+/tp[1-3]/**/*.csv
+/tp[1-3]/**/*.txt
+/tp[1-3]/**/*.json
+/tp[1-3]/**/*.log
+/tp[1-3]/**/*.db
+/tp[1-3]/**/*.sqlite
+/tp[1-3]/**/*.sqlite3
+
+# Fichiers temporaires et propres au système
+*.tmp
+*.bak
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
