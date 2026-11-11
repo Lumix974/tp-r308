@@ -131,6 +131,33 @@ class Bibliotheque:
             if not livre.disponible: livre.afficher()  # Livres empruntés
 
 
+    def stats(self):
+        """
+        Calcule les statistiques de la bibliothèque.
+
+        Retour :
+            dict : Nombre total de livres, nombre de livres
+                   empruntés et emprunts par utilisateur.
+        """
+        total = len(self.livres)  # Nombre total de livres
+
+        empruntes = 0
+        for livre in self.livres.values():
+            if not livre.disponible: empruntes += 1  # Comptage des emprunts
+
+        par_utilisateur = {}
+
+        for nom, utilisateur in self.utilisateurs.items():
+            if utilisateur.emprunts:
+                par_utilisateur[nom] = len(utilisateur.emprunts)
+
+        return {
+            "total": total,
+            "empruntes": empruntes,
+            "par_utilisateur": par_utilisateur
+        }
+
+
 # Tests du programme
 if __name__ == "__main__":
     b = Bibliotheque()  # Création de la bibliothèque

@@ -82,6 +82,7 @@ def afficher_menu():
     print("5 - Afficher les livres")
     print("6 - Rechercher un livre par auteur")
     print("7 - Exporter la bibliothèque en JSON")
+    print("8 - Statistiques de la bibliothèque")
     print("9 - Quitter et sauvegarder")
 
 
@@ -163,6 +164,23 @@ def jouer():
         elif choix == "7":
             fichier_json = Path(__file__).with_name("bibliotheque.json")
             exporter_json(b, fichier_json)  # Export des données
+
+
+        elif choix == "8":
+            statistiques = b.stats()  # Récupération des statistiques
+
+            print("\n--- Statistiques de la bibliothèque ---")
+            print(f"Nombre de livres : {statistiques['total']}")
+            print(f"Livres empruntés : {statistiques['empruntes']}")
+
+            print("\n--- Emprunts par utilisateur ---")
+
+            if not statistiques["par_utilisateur"]:
+                print("Aucun emprunt en cours.")
+
+            for nom, nombre in statistiques["par_utilisateur"].items():
+                print(f"{nom} : {nombre} livre(s)")
+
 
         elif choix == "9":
             livres_ok = sauvegarder_csv(b, fichier_livres)
