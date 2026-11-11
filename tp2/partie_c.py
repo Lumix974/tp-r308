@@ -1,6 +1,7 @@
 
 from partie_a import Grille
 from partie_b import JoueurHumain, JoueurIA
+from bonus import JoueurIAMalin
 
 
 def jouer_partie(joueurs, affichage=True):
@@ -54,11 +55,12 @@ def choisir_mode():
         print("\n1 - Humain contre IA")
         print("2 - Humain contre Humain")
         print("3 - IA contre IA (20 parties)")
+        print("4 - Humain contre IA maline")
         print("0 - Quitter")
 
         choix = input("Choisissez un mode : ").strip()
 
-        if choix in ("0", "1", "2", "3"): return choix
+        if choix in ("0", "1", "2", "3", "4"): return choix
 
         print("Erreur : choisissez un mode valide.")
 
@@ -79,15 +81,28 @@ def jouer():
 
         if choix == "1":
             joueurs = {"X": JoueurHumain(), "O": JoueurIA()}
+
         elif choix == "2":
             joueurs = {"X": JoueurHumain(), "O": JoueurHumain()}
-        else:
+
+        elif choix == "3":
             joueurs = {"X": JoueurIA(), "O": JoueurIA()}
+
+        else:
+            joueurs = {"X": JoueurHumain(), "O": JoueurIAMalin()}
 
         nb_parties = 20 if choix == "3" else 1
 
         for i in range(nb_parties):
             gagnant = jouer_partie(joueurs, choix != "3")
+
+            if choix == "4":
+                if gagnant == "X":
+                    print("Championnat : Victoire !")
+                elif gagnant == "O":
+                    print("Championnat : Défaite !")
+                else:
+                    print("Championnat : Match nul !")
 
             if gagnant is None:
                 scores["Nuls"] += 1  # Comptabilisation d'un match nul
