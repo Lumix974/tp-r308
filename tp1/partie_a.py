@@ -1,3 +1,5 @@
+from pathlib import Path
+
 dic = {}  # Dictionnaire des étudiants
 
 def ajouter_etudiant(d, nom, note):
@@ -135,7 +137,8 @@ if __name__ == "__main__":
     print("Moyenne :", moyenne_classe(dic))
     print("Meilleur étudiant :", meilleur_etudiant(dic))
 
-    sauvegarder_etudiants(dic, "etudiants.txt")  # Sauvegarde
-    dic_charge = charger_etudiants("etudiants.txt")  # Chargement
+    fichier = Path(__file__).with_name("etudiants.txt")  # Chemin du fichier
+    sauvegarder_etudiants(dic, fichier)  # Sauvegarde des étudiants
+    dic_charge = charger_etudiants(fichier)  # Chargement des étudiants
 
     print("Dictionnaire rechargé :", dic_charge)

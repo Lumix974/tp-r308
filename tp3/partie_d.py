@@ -80,10 +80,10 @@ def afficher_menu():
     print("3 - Emprunter un livre")
     print("4 - Rendre un livre")
     print("5 - Afficher les livres")
-    print("6 - Rechercher un livre par auteur")
-    print("7 - Exporter la bibliothèque en JSON")
-    print("8 - Statistiques de la bibliothèque")
-    print("9 - Quitter et sauvegarder")
+    print("6 - Quitter et sauvegarder")
+    print("7 - Statistiques de la bibliothèque")
+    print("8 - Rechercher un livre par auteur")
+    print("9 - Exporter la bibliothèque en JSON")
 
 
 def jouer():
@@ -150,24 +150,17 @@ def jouer():
             b.afficher_livres()  # Affichage du catalogue
 
         elif choix == "6":
-            auteur = input("Auteur recherché : ").strip()
-            resultats = rechercher_auteur(b, auteur)
+            livres_ok = sauvegarder_csv(b, fichier_livres)
+            utilisateurs_ok = sauvegarder_utilisateurs(b, fichier_utilisateurs)
 
-            if not resultats:
-                print("Aucun livre trouvé.")
-            else:
-                print(f"\n{len(resultats)} livre(s) trouvé(s) :")
+            if livres_ok and utilisateurs_ok:
+                print("Bibliothèque sauvegardée. Au revoir !")
+                break
 
-                for livre in resultats:
-                    livre.afficher()
+            print("Erreur : sauvegarde incomplète.")
 
         elif choix == "7":
-            fichier_json = Path(__file__).with_name("bibliotheque.json")
-            exporter_json(b, fichier_json)  # Export des données
-
-
-        elif choix == "8":
-            statistiques = b.stats()  # Récupération des statistiques
+            statistiques = b.stats()  # Statistiques
 
             print("\n--- Statistiques de la bibliothèque ---")
             print(f"Nombre de livres : {statistiques['total']}")
@@ -181,16 +174,21 @@ def jouer():
             for nom, nombre in statistiques["par_utilisateur"].items():
                 print(f"{nom} : {nombre} livre(s)")
 
+        elif choix == "8":
+            auteur = input("Auteur recherché : ").strip()
+            resultats = rechercher_auteur(b, auteur)
+
+            if not resultats:
+                print("Aucun livre trouvé.")
+            else:
+                print(f"\n{len(resultats)} livre(s) trouvé(s) :")
+
+                for livre in resultats:
+                    livre.afficher()
 
         elif choix == "9":
-            livres_ok = sauvegarder_csv(b, fichier_livres)
-            utilisateurs_ok = sauvegarder_utilisateurs(b, fichier_utilisateurs)
-
-            if livres_ok and utilisateurs_ok:
-                print("Bibliothèque sauvegardée. Au revoir !")
-                break
-
-            print("Erreur : sauvegarde incomplète.")
+            fichier_json = Path(__file__).with_name("bibliotheque.json")
+            exporter_json(b, fichier_json)  # Export des données
 
         else:
             print("Erreur : choix invalide.")

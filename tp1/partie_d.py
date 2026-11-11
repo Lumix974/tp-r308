@@ -1,6 +1,6 @@
-
-from partie_c import mots, choisir_mot, masque
 import math
+from pathlib import Path
+from partie_c import mots, choisir_mot, masque
 
 def jouer_pendu(mot):
     """
@@ -96,12 +96,13 @@ def choisir_mode():
 BONUS 1
 """
 
-def jouer(scores):
+def jouer(scores, fichier):
     """
     Permet de rejouer au Pendu après chaque partie et de comptabiliser les victoires.
 
-    Paramètre :
+    Paramètres :
         scores (dict) : Dictionnaire des scores des joueurs.
+        fichier (str ou Path) : Chemin du fichier de sauvegarde.
 
     Retour :
         None
@@ -123,8 +124,8 @@ def jouer(scores):
         if resultat.startswith("Gagné"):  # Vérification de la victoire
             scores[nom] += 1  # Ajout d'une victoire
 
-        print(f"{nom} : {scores[nom]} victoire(s)")
-        sauvegarder_scores(scores, "scores.txt")  # Sauvegarde après chaque partie
+        print(f"{nom} : {scores[nom]} victoire(s)")  # Affichage du score
+        sauvegarder_scores(scores, fichier)  # Sauvegarde après chaque partie
 
         while True:
             reponse = input("\nRejouer ? (o/n) : ").strip().lower()
@@ -207,6 +208,6 @@ def sauvegarder_scores(scores, fichier):
         print(f"Erreur de sauvegarde : {e}")
 
 if __name__ == "__main__":
-    scores = charger_scores("scores.txt")  # Chargement des scores
-    jouer(scores)  # Lancement du Pendu
-    sauvegarder_scores(scores, "scores.txt")  # Sauvegarde des scores
+    fichier = Path(__file__).with_name("scores.txt")  # Chemin du fichier des scores
+    scores = charger_scores(fichier)  # Chargement des scores
+    jouer(scores, fichier)  # Lancement et sauvegarde après chaque partie

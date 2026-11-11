@@ -103,7 +103,7 @@ def charger_csv(fichier):
 
 # Tests du programme
 if __name__ == "__main__":
-    fichier = Path(__file__).with_name("livres.csv")  # Chemin de sauvegarde
+    fichier = Path(__file__).with_name("livres_test.csv")  # Chemin de sauvegarde
 
     b = Bibliotheque()  # Création de la bibliothèque
 
